@@ -136,8 +136,7 @@ public class Sign_In extends AppCompatActivity implements View.OnClickListener {
 
 
 
-                    startActivity(new Intent(Sign_In.this, StudentProfile.class));
-                    finish();
+
                 }else{
                     Toast.makeText(Sign_In.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
                 }
@@ -155,13 +154,14 @@ public class Sign_In extends AppCompatActivity implements View.OnClickListener {
             userSignIn();
         }
         if(v == StudentRegister){
-            finish();
+
             startActivity(new Intent(this, RegisterActivity.class));
+            finish();
         }
 
         if(v == EmployerRegisterTextView){
             startActivity(new Intent(this, EmployerRegister.class));
-
+            finish();
         }
     }
 }

@@ -164,6 +164,7 @@ public class EmployerRegister extends AppCompatActivity implements View.OnClickL
 
         if(v == SignIn){
             startActivity(new Intent(this, Sign_In.class));
+            finish();
         }
 
     }

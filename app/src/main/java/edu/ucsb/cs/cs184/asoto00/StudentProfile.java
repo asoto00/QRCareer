@@ -83,8 +83,9 @@ public class StudentProfile extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         if(v == SignOutButton){
             firebaseAuth.signOut();
-            finish();
+
             startActivity(new Intent(this, Sign_In.class));
+            finish();
         }
     }
 }

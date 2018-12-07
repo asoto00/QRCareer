@@ -78,8 +78,9 @@ public class EmployerProfile extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if( v == SignOutButton2){
             firebaseAuth.signOut();
-            finish();
+
             startActivity(new Intent(this, Sign_In.class));
+            finish();
         }
 
     }
