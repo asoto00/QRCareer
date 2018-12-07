@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,17 +23,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class EmployerRegister extends AppCompatActivity implements View.OnClickListener {
 
-    private Button StudentRegister;
-    private EditText StudentName;
-    private EditText StudentPhone;
-    private EditText StudentMajor;
-    private EditText GraduationYear;
-    private EditText StudentGPA;
-    private EditText Email;
-    private EditText Password;
-    private TextView EmployerReg;
+    private EditText EmployerName;
+    private EditText EmployerCompany;
+    private EditText EmployerPhone;
+    private EditText EmployerEmail;
+    private EditText EmployerPassword;
+    private Button EmployerRegButton;
+    private TextView StudentReg;
     private TextView SignIn;
 
     private ProgressDialog progressDialog;
@@ -42,13 +39,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_employer_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
 
         if(firebaseAuth.getCurrentUser() != null){
             FirebaseUser user  = firebaseAuth.getCurrentUser();
@@ -62,10 +59,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     StudentUser studentUser = dataSnapshot.getValue(StudentUser.class);
                     if(studentUser.Type.equals("student")){
-                        startActivity(new Intent(RegisterActivity.this, StudentProfile.class));
+                        startActivity(new Intent(EmployerRegister.this, StudentProfile.class));
                         finish();
                     }else if(studentUser.Type.equals("employer")){
-                        startActivity(new Intent(RegisterActivity.this, EmployerProfile.class));
+                        startActivity(new Intent(EmployerRegister.this, EmployerProfile.class));
                         finish();
                     }
 
@@ -81,28 +78,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
 
+
+
         progressDialog = new ProgressDialog(this);
 
-        StudentRegister = (Button) findViewById(R.id.reg);
-        StudentName = (EditText) findViewById(R.id.Name);
-        StudentPhone = (EditText) findViewById(R.id.Phone);
-        StudentMajor = (EditText) findViewById(R.id.Major);
-        GraduationYear = (EditText) findViewById(R.id.GradYear);
-        StudentGPA = (EditText) findViewById(R.id.GPA);
-        Email = (EditText) findViewById(R.id.email);
-        Password = (EditText) findViewById(R.id.password);
-        EmployerReg = (TextView) findViewById(R.id.Employer);
-        SignIn = (TextView) findViewById(R.id.SignIn);
 
-        StudentRegister.setOnClickListener(this);
-        EmployerReg.setOnClickListener(this);
+        EmployerName = (EditText) findViewById(R.id.EName);
+        EmployerCompany = (EditText) findViewById(R.id.Company);
+        EmployerPhone = (EditText) findViewById(R.id.EPhone);
+        EmployerEmail = (EditText) findViewById(R.id.employerEmail);
+        EmployerPassword = (EditText) findViewById(R.id.employerPassword);
+
+        EmployerRegButton = (Button) findViewById(R.id.EReg);
+
+        StudentReg = (TextView) findViewById(R.id.Student);
+        SignIn = (TextView) findViewById(R.id.SignIn2);
+
+        EmployerRegButton.setOnClickListener(this);
+        StudentReg.setOnClickListener(this);
         SignIn.setOnClickListener(this);
 
     }
 
-    private void registerStudent(){
-        String email = Email.getText().toString().trim();
-        String password = Password.getText().toString().trim();
+    public void registerEmployer(){
+        String email = EmployerEmail.getText().toString().trim();
+        String password = EmployerPassword.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this, "Please Enter Email",Toast.LENGTH_SHORT).show();
@@ -121,50 +121,50 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressDialog.dismiss();
                 if(task.isSuccessful()){
-                    onAuthSuccess(task.getResult().getUser());
+                    onEmployerAuthSuccess(task.getResult().getUser());
                 }else{
-                    Toast.makeText(RegisterActivity.this, "Register Failed... Try Again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EmployerRegister.this, "Register Failed... Try Again", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 
-    private void onAuthSuccess(FirebaseUser user){
-        String n = StudentName.getText().toString().trim();
-        String p = StudentPhone.getText().toString().trim();
-        String m = StudentMajor.getText().toString().trim();
-        int gy = Integer.parseInt(GraduationYear.getText().toString());
-        Float gpa = Float.parseFloat(StudentGPA.getText().toString());
 
-        writeNewUser(user.getUid(),n,p,m,gy,gpa,user.getEmail());
+    private void onEmployerAuthSuccess(FirebaseUser user){
+        String n = EmployerName.getText().toString().trim();
+        String c = EmployerCompany.getText().toString().trim();
+        String p = EmployerPhone.getText().toString().trim();
+
+        addEmployerUser(user.getUid(),n,c,p,user.getEmail());
 
         startActivity(new Intent(this, Sign_In.class));
         finish();
 
     }
 
-    private void writeNewUser(String userId, String name, String phone, String major,int gradYear, Float gpa, String email) {
-         StudentUser user = new StudentUser(name,phone,major,gradYear,gpa,email);
 
-        databaseReference.child("users").child(userId).setValue(user);
+    public void addEmployerUser(String userId, String name, String company, String phoneNumber, String email){
+        EmployerUser employerUser = new EmployerUser(name,company,phoneNumber,email);
+
+        databaseReference.child("users").child(userId).setValue(employerUser);
+
     }
 
 
     @Override
     public void onClick(View v) {
-        if(v == StudentRegister){
-            registerStudent();
+        if(v == EmployerRegButton){
+            registerEmployer();
         }
 
-        if(v == EmployerReg){
-            startActivity(new Intent(this, EmployerRegister.class));
+        if(v == StudentReg){
+            startActivity(new Intent(this, RegisterActivity.class));
             finish();
         }
 
         if(v == SignIn){
-            finish();
             startActivity(new Intent(this, Sign_In.class));
         }
+
     }
 }

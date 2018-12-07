@@ -10,10 +10,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/TitleStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Student Register"
+        android:layout_gravity="center_horizontal"/>
+    
 
     <EditText
         android:id="@+id/Name"
@@ -89,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Are you an Employer? Register Here"
+        android:text="Are you an amployer? Register Here"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/reg" />
 
@@ -98,10 +102,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Sign In"
+        android:text="Sign In Here"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/Employer"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/Employer" />
+
+</LinearLayout>
+
+
 
 
 </android.support.constraint.ConstraintLayout>
