@@ -55,10 +55,26 @@
             android:textAlignment="center"/>
 
         <Button
+            android:id="@+id/generatorButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generate QR"
+            />
+
+        <Button
             android:id="@+id/SignOutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Out" />
+
+        <ImageView
+            android:id="@+id/qrImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+
+
 
 
     </LinearLayout>

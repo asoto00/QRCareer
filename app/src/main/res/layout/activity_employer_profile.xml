@@ -36,12 +36,18 @@
             app:layout_constraintTop_toBottomOf="@+id/CECompany"
             android:textAlignment="center"/>
 
-
+<Button
+    android:id="@+id/ScanButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="SCAN"/>
         <Button
             android:id="@+id/SignOutButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Out" />
+
+
 
 
     </LinearLayout>
